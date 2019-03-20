@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/machendos/proxy-http#readme",
   "dependencies": {
-    "eslint": "^5.15.3"
+    "eslint": "^5.15.3",
+    "now": "^14.2.0"
   }
 }
