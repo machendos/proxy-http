@@ -1,20 +1,48 @@
 'use strict';
 
 const http = require('http');
+const fs = require('fs');
+const join = require('path').join;
 
-const proxy = http.createServer((req, res) => {
-  const options = {
-    host: req.headers.host,
-    headers: req.headers,
-    method: req.method
-  };
-  // res.end('end');
-  const requ = http.request(options, res1 => {
-    // res1.on('data', chunk => console.log(chunk));
-    res1.pipe(res);
-  });
-  // setTimeout(() => {res.end('srtr'), 3000});
-  requ.end();
+const LOG_FILE = join(__dirname, 'log.txt');
+
+const createLogString = (clientAddress, destinationAddress) =>
+  new Date() +
+  ' ' +
+  clientAddress +
+  ' -> ' +
+  destinationAddress +
+  '\n';
+
+const proxy = http.createServer((proxyReq, proxyRes) => {
+  proxyRes.end('END');
+  const clientAddress = proxyReq.socket.address;
+  const destinationAddress = proxyReq.headers.host;
+  const logString = createLogString(clientAddress, destinationAddress);
+
+  // fs.writeFile(LOG_FILE, logString, { flag: 'a' }, err => {
+  //   if (err) {
+  //     console.log(err);
+  //     process.exit(1);
+  //   }
+  // });
+
+  // proxyRes.setHeader('content-type', 'text/html');
+
+  // const options = {
+  //   host: destinationAddress,
+  //   method: proxyReq.method,
+  //   headers: {
+  //     'content-type': 'text/html'
+  //   }
+  // };
+
+  // const mainReq = http.request(options, mainRes => {
+  //   mainRes.pipe(proxyRes);
+  // });
+
+  // mainReq.end();
+
 });
 
 proxy.listen(2001);
