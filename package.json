@@ -10,6 +10,9 @@
      "deploy": "now --token $TOKEN deploy",
      "deploy2": "now --token $TOKEN alias $(echo $(now --token $TOKEN deploy)) nikita-$TRAVIS_BRANCH.now.sh"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/machendos/proxy-http.git"
