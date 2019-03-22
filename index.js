@@ -49,5 +49,7 @@ const proxy = http.createServer((proxyReq, proxyRes) => {
 
 });
 
-proxy.listen(process.env.PORT);
+// proxy.listen(process.env.PORT);
+
+module.exports = proxy;
 
