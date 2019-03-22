@@ -7,8 +7,7 @@
     "test": "echo 'HELOLOLOLOLOLOLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO'",
     "lint": "eslint .",
     "start": "echo 'STARTED'",
-     "deploy": "now --token $TOKEN deploy",
-     "deploy2": "now --token $TOKEN alias $(echo $(now --token $TOKEN deploy)) nikita-$TRAVIS_BRANCH.now.sh"
+    "deploy": "now --token $TOKEN alias $(echo $(now --token $TOKEN deploy)) nikita-$TRAVIS_BRANCH.now.sh"
   },
   "engines": {
     "node": "10.x"
