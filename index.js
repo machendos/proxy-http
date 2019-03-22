@@ -15,34 +15,39 @@ const createLogString = (clientAddress, destinationAddress) =>
   '\n';
 
 const proxy = http.createServer((proxyReq, proxyRes) => {
-  proxyRes.end('END');
-  const clientAddress = proxyReq.socket.address;
+  proxyRes.end(JSON.stringify({
+    headers: proxyReq.headers,
+    url: proxyReq.url
+  }));
+
+// // x-forwarded ...
+  const clientAddress = proxyReq.socket.localAddress;
   const destinationAddress = proxyReq.headers.host;
   const logString = createLogString(clientAddress, destinationAddress);
 
-  // fs.writeFile(LOG_FILE, logString, { flag: 'a' }, err => {
-  //   if (err) {
-  //     console.log(err);
-  //     process.exit(1);
-  //   }
-  // });
+  fs.writeFile(LOG_FILE, logString, { flag: 'a' }, err => {
+    if (err) {
+      console.log(err);
+      process.exit(1);
+    }
+  });
 
-  // proxyRes.setHeader('content-type', 'text/html');
+  proxyRes.setHeader('content-type', 'text/html');
 
-  // const options = {
-  //   host: destinationAddress,
-  //   method: proxyReq.method,
-  //   headers: {
-  //     'content-type': 'text/html'
-  //   }
-  // };
+  const options = {
+    host: destinationAddress,
+    method: proxyReq.method,
+    headers: {
+      'content-type': 'text/html'
+    }
+  };
+  const mainReq = http.request(options, mainRes => {
+    mainRes.pipe(proxyRes);
+  });
 
-  // const mainReq = http.request(options, mainRes => {
-  //   mainRes.pipe(proxyRes);
-  // });
-
-  // mainReq.end();
+  mainReq.end();
 
 });
 
-proxy.listen(2001);
+proxy.listen(process.env.PORT);
+
