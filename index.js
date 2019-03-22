@@ -20,7 +20,7 @@ const proxy = http.createServer((proxyReq, proxyRes) => {
     url: proxyReq.url
   }));
 
-// // x-forwarded ...
+  // // x-forwarded ...
   const clientAddress = proxyReq.socket.localAddress;
   const destinationAddress = proxyReq.headers.host;
   const logString = createLogString(clientAddress, destinationAddress);
